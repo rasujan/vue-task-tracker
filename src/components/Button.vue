@@ -1,5 +1,7 @@
 <template>
-  <button :style="{ background: color }">{{ label }}</button>
+  <button @click="onClick()" :style="{ background: color }">
+    {{ label }}
+  </button>
 </template>
 
 <script lang="ts">
@@ -12,6 +14,14 @@ export default {
     color: {
       type: String,
       default: "#A5D8FF",
+    },
+    action: {
+      type: Function,
+    },
+  },
+  methods: {
+    onClick() {
+      this.$emit("btn-action");
     },
   },
 };

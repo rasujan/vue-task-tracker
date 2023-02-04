@@ -1,8 +1,12 @@
 <template>
   <div class="container">
-    <HeaderC title="Task Tracker" />
+    <HeaderC
+      @toggle-show-add-task="toggleShowAddTask"
+      :showAddTask="showAddTask"
+      title="Task Tracker"
+    />
 
-    <section>
+    <section v-if="showAddTask">
       <AddTask @add-task="addTask" />
     </section>
 
@@ -28,6 +32,7 @@ export default {
   data() {
     return {
       tasks: [] as task[],
+      showAddTask: false,
     };
   },
   created() {
@@ -55,6 +60,9 @@ export default {
   methods: {
     deleteTask(id: number) {
       this.tasks = this.tasks.filter((task) => task.id !== id);
+    },
+    toggleShowAddTask() {
+      this.showAddTask = !this.showAddTask;
     },
     toggleTask(id: number) {
       this.tasks = this.tasks.map((task) =>

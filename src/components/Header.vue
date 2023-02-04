@@ -1,7 +1,20 @@
 <template>
   <header>
     <h1>{{ title }}</h1>
-    <ButtonC label="Add" color="#96F2D7" />
+
+    <ButtonC
+      @btn-action="$emit('toggle-show-add-task')"
+      v-if="showAddTask"
+      label="Add"
+      color="#96F2D7"
+    />
+
+    <ButtonC
+      @btn-action="$emit('toggle-show-add-task')"
+      v-if="!showAddTask"
+      label="Close"
+      color="#FF6655"
+    />
   </header>
 </template>
 
@@ -14,6 +27,10 @@ export default {
     title: {
       type: String,
       default: "hello world",
+    },
+    showAddTask: {
+      type: Boolean,
+      default: false,
     },
   },
   components: {
