@@ -2,6 +2,9 @@
   <div class="container">
     <HeaderC title="Task Tracker" />
     <section>
+      <AddTask />
+    </section>
+    <section>
       <TasksC
         @delete-task="deleteTask"
         @toggle-reminder="toggleTask"
@@ -14,11 +17,12 @@
 <script lang="ts">
 import HeaderC from "./components/Header.vue";
 import TasksC from "./components/Tasks.vue";
+import AddTask from "./components/AddTask.vue";
 import type { task } from "./utils/types";
 
 export default {
   name: "App",
-  components: { HeaderC, TasksC },
+  components: { HeaderC, TasksC, AddTask },
   data() {
     return {
       tasks: [] as task[],
@@ -61,13 +65,10 @@ export default {
 
 <style scoped>
 .container {
-  display: flex;
-  align-content: center;
-  justify-content: center;
+  display: block;
   border: 1px solid #ccc;
-  padding: 1rem;
   margin: 0 auto;
-  flex-direction: column;
-  max-width: 420px;
+  min-width: 420px;
+  max-width: max-content;
 }
 </style>
