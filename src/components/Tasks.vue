@@ -21,8 +21,5 @@ export default {
     Task,
   },
   emits: ["delete-task", "toggle-reminder"],
-  created() {
-    console.log("Tasks is created", this.tasks);
-  },
 };
 </script>

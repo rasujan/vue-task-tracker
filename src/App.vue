@@ -1,9 +1,11 @@
 <template>
   <div class="container">
     <HeaderC title="Task Tracker" />
+
     <section>
-      <AddTask />
+      <AddTask @add-task="addTask" />
     </section>
+
     <section>
       <TasksC
         @delete-task="deleteTask"
@@ -58,6 +60,10 @@ export default {
       this.tasks = this.tasks.map((task) =>
         task.id === id ? { ...task, reminder: !task.reminder } : task
       );
+    },
+    addTask(formData: task) {
+      console.log("🚀 ~ file: App.vue:65 ~ addTask ~ formData", formData);
+      this.tasks = [...this.tasks, formData];
     },
   },
 };
