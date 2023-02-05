@@ -14,6 +14,7 @@
       <TasksC
         @delete-task="deleteTask"
         @toggle-reminder="toggleTask"
+        @fetch-task="fetchTask"
         :tasks="tasks"
       />
     </section>
@@ -35,27 +36,8 @@ export default {
       showAddTask: false,
     };
   },
-  created() {
-    this.tasks = [
-      {
-        id: 1,
-        text: "Wash the clothes",
-        reminder: true,
-        date: "2023-01-03",
-      },
-      {
-        id: 2,
-        text: "Do the dishes",
-        reminder: false,
-        date: "2023-02-10",
-      },
-      {
-        id: 3,
-        text: "Clean the room",
-        reminder: true,
-        date: "2023-02-03",
-      },
-    ];
+  async created() {
+    this.tasks = await this.fetchTasks();
   },
   methods: {
     deleteTask(id: number) {
@@ -69,9 +51,26 @@ export default {
         task.id === id ? { ...task, reminder: !task.reminder } : task
       );
     },
-    addTask(formData: task) {
-      console.log("🚀 ~ file: App.vue:65 ~ addTask ~ formData", formData);
-      this.tasks = [...this.tasks, formData];
+    async addTask(formData: any) {
+      console.log("🚀 ~ file: App.vue:55 ~ addTask ~ formData", formData);
+      const res = await fetch("http://localhost:5000/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+
+      this.tasks = [...this.tasks, data];
+    },
+    async fetchTasks() {
+      const res = await fetch("http://localhost:5000/tasks");
+      const data = await res.json();
+      return data;
+    },
+    async fetchTask(id: number) {
+      const res = await fetch(`http://localhost:5000/tasks/${id}`);
+      const data = await res.json();
+      return data;
     },
   },
 };

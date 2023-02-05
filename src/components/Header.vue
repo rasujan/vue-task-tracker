@@ -4,14 +4,14 @@
 
     <ButtonC
       @btn-action="$emit('toggle-show-add-task')"
-      v-if="showAddTask"
+      v-if="!showAddTask"
       label="Add"
       color="#96F2D7"
     />
 
     <ButtonC
       @btn-action="$emit('toggle-show-add-task')"
-      v-if="!showAddTask"
+      v-if="showAddTask"
       label="Close"
       color="#FF6655"
     />

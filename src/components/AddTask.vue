@@ -7,8 +7,8 @@
     <div class="form-control">
       <label>Day & Time</label>
       <input
-        type="date"
-        v-modal="day"
+        type="text"
+        v-model="day"
         name="day"
         placeholder="Add Day & Time"
       />
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import type { task } from "../utils/types";
+// import type { task } from "../utils/types";
 
 export default {
   name: "AddTask",
@@ -44,11 +44,11 @@ export default {
         return;
       }
 
-      const newTask: task = {
-        id: Math.floor(Math.random() * 99999999),
+      const newTask: any = {
+        // id: Math.floor(Math.random() * 99999999),
         text: this.text,
         reminder: this.reminder,
-        date: this.day,
+        date: this.day || "2024-03-05",
       };
 
       this.$emit("add-task", newTask);
