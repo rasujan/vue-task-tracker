@@ -13,7 +13,7 @@
     <section>
       <TasksC
         @delete-task="deleteTask"
-        @toggle-reminder="toggleTask"
+        @toggle-reminder="toggleTaskReminder"
         @fetch-task="fetchTask"
         :tasks="tasks"
       />
@@ -40,19 +40,40 @@ export default {
     this.tasks = await this.fetchTasks();
   },
   methods: {
-    deleteTask(id: number) {
-      this.tasks = this.tasks.filter((task) => task.id !== id);
+    async deleteTask(id: number) {
+      if (confirm("Are you sure?")) {
+        const res = await fetch(`api/tasks/${id}`, {
+          method: "DELETE",
+        });
+
+        res.status === 200
+          ? (this.tasks = this.tasks.filter((task) => task.id !== id))
+          : alert("Error deleting task");
+      }
     },
     toggleShowAddTask() {
       this.showAddTask = !this.showAddTask;
     },
-    toggleTask(id: number) {
+    async toggleTaskReminder(id: number) {
+      const taskToToggle = await this.fetchTask(id);
+      const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
+
+      const res = await fetch(`api/tasks/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(updTask),
+      });
+
+      const data = await res.json();
+
       this.tasks = this.tasks.map((task) =>
-        task.id === id ? { ...task, reminder: !task.reminder } : task
+        task.id === id ? { ...task, reminder: data.reminder } : task
       );
     },
     async addTask(formData: any) {
-      console.log("🚀 ~ file: App.vue:55 ~ addTask ~ formData", formData);
+      // console.log("🚀 ~ file: App.vue:55 ~ addTask ~ formData", formData);
       const res = await fetch("http://localhost:5000/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
